@@ -1,6 +1,6 @@
 ﻿namespace ArchiTetris
 {
-    partial class Form1
+    partial class ArchiTetris
     {
         /// <summary>
         /// Required designer variable.
@@ -31,8 +31,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.board = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.blockChooser = new System.Windows.Forms.ListBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.blockChooser = new System.Windows.Forms.ListBox();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -66,14 +66,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Player 1";
             // 
-            // blockChooser
-            // 
-            this.blockChooser.FormattingEnabled = true;
-            this.blockChooser.Location = new System.Drawing.Point(7, 20);
-            this.blockChooser.Name = "blockChooser";
-            this.blockChooser.Size = new System.Drawing.Size(154, 108);
-            this.blockChooser.TabIndex = 0;
-            // 
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(7, 304);
@@ -86,16 +78,24 @@
     " and right arrow keys to move falling block accordingly. Use up arrow to rotate " +
     "the block.";
             // 
-            // Form1
+            // blockChooser
+            // 
+            this.blockChooser.FormattingEnabled = true;
+            this.blockChooser.Location = new System.Drawing.Point(7, 20);
+            this.blockChooser.Name = "blockChooser";
+            this.blockChooser.Size = new System.Drawing.Size(154, 108);
+            this.blockChooser.TabIndex = 0;
+            this.blockChooser.SelectedIndexChanged += new System.EventHandler(this.blockChooser_SelectedIndexChanged);
+            // 
+            // ArchiTetris
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(401, 448);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Name = "Form1";
+            this.Name = "ArchiTetris";
             this.Text = "ArchiTetris";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

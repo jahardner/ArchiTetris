@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ArchiTetris
 {
-    class SquareBlock : CompositeBlock
+    class BarBlock : CompositeBlock
     {
-        public SquareBlock()
+        public BarBlock()
         {
             blocks.Add(new DoubleBlock());
             blocks.Add(new DoubleBlock());
@@ -22,7 +22,7 @@ namespace ArchiTetris
             topBlock.setBlocksPos(x, y);
             blocks[0] = topBlock;
             DoubleBlock bottomBlock = (DoubleBlock)blocks[1];
-            bottomBlock.setBlocksPos(x,y+1);
+            bottomBlock.setBlocksPos(x, y + 1);
             blocks[1] = bottomBlock;
         }
     }

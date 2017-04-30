@@ -3,29 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
 
 namespace ArchiTetris
 {
-    class WrapperBlock : AbsBlock
+    class SingleBlock : AbsBlock
     {
-        public BlockIF block;
-        public Color c;
-
-        public WrapperBlock(BlockIF cb, Color c)
-        {
-            block = cb;
-            this.c = c;
-        }
-
         public override List<KeyValuePair<int, int>> getPos()
         {
-            return block.getPos();
+            List<KeyValuePair<int, int>> poses = new List<KeyValuePair<int, int>>();
+            poses.Add(new KeyValuePair<int, int>(x, y));
+            return poses;
         }
 
         public override void setBlocksPos(int x, int y)
         {
-            block.setBlocksPos(x, y);
+            this.x = x;
+            this.y = y;
         }
     }
 }

@@ -12,16 +12,16 @@ namespace ArchiTetris
         private Color[] colors = new Color[] {Color.Crimson, Color.DeepSkyBlue, Color.HotPink, Color.SpringGreen,
         Color.MediumPurple, Color.Goldenrod, Color.Chocolate};
 
-        public CompositeBlock getColoredBlock(string str)
+        public BlockIF getColoredBlock(string str)
         {
             WrapperBlock wBlock = new WrapperBlock(getBlock(str), getColor());
-            return (CompositeBlock)wBlock;
+            return (BlockIF)wBlock;
         }
 
-        private CompositeBlock getBlock(string str)
+        private BlockIF getBlock(string str)
         {
             Type blockType = Type.GetType("ArchiTetris." + str);
-            return (CompositeBlock)Activator.CreateInstance(blockType);
+            return (BlockIF)Activator.CreateInstance(blockType);
         }
 
         private Color getColor()
