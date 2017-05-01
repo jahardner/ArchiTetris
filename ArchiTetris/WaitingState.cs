@@ -10,13 +10,13 @@ namespace ArchiTetris
     {
         public WaitingState(ArchiTetris e)
         {
-            e.currentBlock = e.rwl.getBlock();
-            e.currentBlock.setBlocksPos(5, 0);
-            nextState(e);
+            
         }
 
         public override BoardState nextState(ArchiTetris e)
         {
+            e.currentBlock = e.rwl.getBlock();
+            e.currentBlock.setBlocksPos(5, 0);
             FallingState newState = new FallingState(e);
             e.bState = newState;
             return newState;

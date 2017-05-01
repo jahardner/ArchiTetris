@@ -12,6 +12,12 @@ namespace ArchiTetris
         public abstract List<KeyValuePair<int, int>> getPos();
         public abstract void setBlocksPos(int x, int y);
 
+        public AbsBlock()
+        {
+            x = 0;
+            y = 0;
+        }
+
         public int getX()
         {
             return x;

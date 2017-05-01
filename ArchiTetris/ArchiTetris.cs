@@ -14,7 +14,7 @@ namespace ArchiTetris
     public partial class ArchiTetris : Form
     {
         Random r = new Random();
-        public FallingState bState;
+        public BoardState bState;
         public PictureBox[,] boardTiles = new PictureBox[10, 20];
         public int[,] boardArray = new int[10, 20];
         public BlockIF currentBlock;
@@ -27,12 +27,13 @@ namespace ArchiTetris
         public String lastMove;
         public ReadWriteLock rwl;
         private int tooFrequent = 2;
+        public bool remove = false;
 
         public ArchiTetris()
         {
             InitializeComponent();
             rwl = new ReadWriteLock(this);
-            new WaitingState(this);
+            bState = new WaitingState(this);
 
             int x = 0, y = 0;
             for (int i = 0; i < 10; i++)
@@ -54,6 +55,7 @@ namespace ArchiTetris
             {
                 blockChooser.Items.Add(blockList[r.Next(blockList.Length)]);
             }
+            blockChooser.SelectedIndex = 0;
 
             System.Timers.Timer tTimer = new System.Timers.Timer();
             tTimer.Elapsed += new ElapsedEventHandler(TimerEvent);
@@ -94,26 +96,68 @@ namespace ArchiTetris
             return 100;
         }
 
+        public void removeBlockQueue()
+        {
+            this.Invoke((MethodInvoker)(() => blockQueue.Items.RemoveAt(0)));
+            if (blockQueue.Items.Count < 5)
+            {
+                pickBttn.Enabled = true;
+            }
+        }
+
+        public void addBlockQueue(string b)
+        {
+            blockQueue.Items.Add(b);
+            if (blockQueue.Items.Count >= 5)
+            {
+                pickBttn.Enabled = false;
+            }
+        }
+
         private void TimerEvent(object source, ElapsedEventArgs e)
         {
             // impliment timer
+            string timer = timerBox.Text;
+            int single = (int)timer[timer.Length - 1]-48;
+            int tens = (int)timer[timer.Length - 2]-48;
+            int min = Convert.ToInt32(timer.Substring(0, timer.Length-3));
+            single++;
+            if (single == 10)
+            {
+                single = 0;
+                tens++;
+                if (tens == 6)
+                {
+                    tens = 0;
+                    min++;
+                }
+            }
+            timerBox.Text = min + ":" + tens + single;
         }
 
         private void MoveEvent(object source, ElapsedEventArgs e)
         {
+            WaitingState wState = bState as WaitingState;
+            if (wState != null && blockQueue.Items.Count > 0)
+            {
+                bState.nextState(this);
+            }
+
             FallingState fs = bState as FallingState;
             if (currentBlock != null && fs != null)
             {
                 // move block down
                 currentBlock.setBlocksPos(currentBlock.getX(), currentBlock.getY() + 1);
                 lastMove = "down";
-                new CheckState(this, bState);
+                CheckState cState = new CheckState(this, bState);
+                bState = (BoardState)cState;
             }
         }
 
         void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (bState != null)
+            FallingState fs = bState as FallingState;
+            if (fs != null)
             {
                 if (e.KeyChar == (char)Keys.Up)
                 {
@@ -123,13 +167,15 @@ namespace ArchiTetris
                 {
                     currentBlock.setBlocksPos(currentBlock.getX() - 1, currentBlock.getY());
                     lastMove = "left";
-                    bState.nextState(this);
+                    CheckState cState = new CheckState(this, bState);
+                    bState = (BoardState)cState;
                 }
                 else if (e.KeyChar == (char)Keys.Right)
                 {
                     currentBlock.setBlocksPos(currentBlock.getX() + 1, currentBlock.getY());
                     lastMove = "right";
-                    bState.nextState(this);
+                    CheckState cState = new CheckState(this, bState);
+                    bState = (BoardState)cState;
                 }
             }
             e.Handled = true;
@@ -168,19 +214,18 @@ namespace ArchiTetris
             return tooFreq;
         }
 
-        private void blockChooser_SelectedIndexChanged(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             String selBlock = blockChooser.SelectedItem.ToString();
+            blockChooser.Items.RemoveAt(blockChooser.SelectedIndex);
             updateFreq(selBlock);
             if (checkFreq())
             {
                 // add a random block instead
-                rwl.addBlock(fact.getColoredBlock(blockList[r.Next(blockList.Length)] + "Block"));
-            } else
-            {
-                rwl.addBlock(fact.getColoredBlock(selBlock + "Block"));
+                selBlock = blockList[r.Next(blockList.Length)];
             }
-            // remove and replace
+            rwl.addBlock(fact.getColoredBlock(selBlock + "Block"), selBlock);
+            blockChooser.Items.Add(blockList[r.Next(blockList.Length)]);
         }
     }
 }

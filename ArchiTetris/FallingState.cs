@@ -22,6 +22,7 @@ namespace ArchiTetris
         public override BoardState nextState(ArchiTetris e)
         {
             CheckState newState = new CheckState(e, this);
+            e.bState = newState;
             return newState;
         }
     }

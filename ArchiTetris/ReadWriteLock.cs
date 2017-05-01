@@ -24,14 +24,16 @@ namespace ArchiTetris
         {
             readLock();
             BlockIF b = env.nextBlocks.Dequeue();
+            env.removeBlockQueue();
             done();
             return b;
         }
 
-        public void addBlock(BlockIF newB)
+        public void addBlock(BlockIF newB, string b)
         {
             writeLock();
             env.nextBlocks.Enqueue(newB);
+            env.addBlockQueue(b);
             done();
         }
 
@@ -103,10 +105,6 @@ namespace ArchiTetris
                             Monitor.PulseAll(o);
                         }
                     }
-                }
-                else
-                {
-                    String msg = "Thread does not have lock";
                 }
             }
         }

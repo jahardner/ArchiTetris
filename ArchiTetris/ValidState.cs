@@ -18,6 +18,7 @@ namespace ArchiTetris
 
         public override BoardState nextState(ArchiTetris e)
         {
+            e.bState = prevState;
             return prevState;
         }
     }

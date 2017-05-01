@@ -36,6 +36,7 @@ namespace ArchiTetris
                 DoneState dState = new DoneState(e);
                 newState = (BoardState)dState;
             }
+            e.bState = newState;
             return newState;
         }
     }

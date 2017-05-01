@@ -49,6 +49,7 @@ namespace ArchiTetris
         public override BoardState nextState(ArchiTetris e)
         {
             WaitingState newState = new WaitingState(e);
+            e.bState = newState;
             return newState;
         }
     }

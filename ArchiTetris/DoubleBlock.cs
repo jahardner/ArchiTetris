@@ -10,6 +10,12 @@ namespace ArchiTetris
     {
         public SingleBlock[] blocks = new SingleBlock[2];
 
+        public DoubleBlock()
+        {
+            blocks[0] = new SingleBlock();
+            blocks[1] = new SingleBlock();
+        }
+
         public override List<KeyValuePair<int, int>> getPos()
         {
             List<KeyValuePair<int, int>> poses = new List<KeyValuePair<int, int>>();
