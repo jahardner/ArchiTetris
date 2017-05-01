@@ -13,20 +13,27 @@ namespace ArchiTetris
 {
     public partial class ArchiTetris : Form
     {
-        public BoardState bState;
+        Random r = new Random();
+        public FallingState bState;
         public PictureBox[,] boardTiles = new PictureBox[10, 20];
         public int[,] boardArray = new int[10, 20];
         public BlockIF currentBlock;
         BlockFactory fact = new BlockFactory();
         String[] blockList = new String[] { "Square", "Bar", "T", "L", "N" };
+        int[] blockFreq = new int[5] {0,0,0,0,0};
         Color[] colors = new Color[] {Color.Black, Color.Crimson, Color.DeepSkyBlue, Color.HotPink, Color.SpringGreen,
         Color.MediumPurple, Color.Goldenrod, Color.Chocolate};
         public Queue<BlockIF> nextBlocks = new Queue<BlockIF>();
         public String lastMove;
+        public ReadWriteLock rwl;
+        private int tooFrequent = 2;
 
         public ArchiTetris()
         {
             InitializeComponent();
+            rwl = new ReadWriteLock(this);
+            new WaitingState(this);
+
             int x = 0, y = 0;
             for (int i = 0; i < 10; i++)
             {
@@ -43,7 +50,6 @@ namespace ArchiTetris
                 x += 20;
             }
 
-            Random r = new Random();
             for (int i = 0; i < 5; i++)
             {
                 blockChooser.Items.Add(blockList[r.Next(blockList.Length)]);
@@ -101,14 +107,13 @@ namespace ArchiTetris
                 // move block down
                 currentBlock.setBlocksPos(currentBlock.getX(), currentBlock.getY() + 1);
                 lastMove = "down";
-                bState = new CheckState(this, bState);
+                new CheckState(this, bState);
             }
         }
 
         void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            FallingState fs = bState as FallingState;
-            if (fs != null)
+            if (bState != null)
             {
                 if (e.KeyChar == (char)Keys.Up)
                 {
@@ -130,10 +135,51 @@ namespace ArchiTetris
             e.Handled = true;
         }
 
+        private void updateFreq (String b)
+        {
+            int dup = 0;
+            for (int i = 0; i < blockList.Length; i++)
+            {
+                if (b.Equals(blockList[i]))
+                {
+                    blockFreq[i]++;
+                    dup = i;
+                }
+            }
+            for (int j = 0; j < blockFreq.Length; j++)
+            {
+                if (j != dup)
+                {
+                    blockFreq[j] = 0;
+                }
+            }
+        }
+
+        private bool checkFreq()
+        {
+            bool tooFreq = false;
+            foreach (int i in blockFreq)
+            {
+                if (i >= tooFrequent)
+                {
+                    tooFreq = true;
+                }
+            }
+            return tooFreq;
+        }
+
         private void blockChooser_SelectedIndexChanged(object sender, EventArgs e)
         {
             String selBlock = blockChooser.SelectedItem.ToString();
-            nextBlocks.Enqueue(fact.getColoredBlock(selBlock + "Block"));
+            updateFreq(selBlock);
+            if (checkFreq())
+            {
+                // add a random block instead
+                rwl.addBlock(fact.getColoredBlock(blockList[r.Next(blockList.Length)] + "Block"));
+            } else
+            {
+                rwl.addBlock(fact.getColoredBlock(selBlock + "Block"));
+            }
             // remove and replace
         }
     }

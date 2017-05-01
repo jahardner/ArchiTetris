@@ -67,6 +67,7 @@
     <Compile Include="NBlock.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadWriteLock.cs" />
     <Compile Include="SingleBlock.cs" />
     <Compile Include="SquareBlock.cs" />
     <Compile Include="TBlock.cs" />

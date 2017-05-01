@@ -37,7 +37,6 @@ namespace ArchiTetris
                 ValidState vState = new ValidState(e, prevState);
                 newState = (BoardState)vState;
             }
-            e.bState = newState;
             return newState;
         }
     }

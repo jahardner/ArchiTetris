@@ -22,7 +22,6 @@ C:\Users\J.Appallonia\Documents\GitHub\ArchiTetris\ArchiTetris\obj\Debug\ArchiTe
 C:\Users\J.Appallonia\Documents\GitHub\ArchiTetris\ArchiTetris\obj\Debug\ArchiTetris.pdb
 C:\Users\J.Appallonia\Documents\GitHub\ArchiTetris\ArchiTetris\bin\Debug\ArchiTetris.exe
 C:\Users\J.Appallonia\Documents\GitHub\ArchiTetris\ArchiTetris\bin\Debug\ArchiTetris.pdb
-C:\Users\J.Appallonia\Documents\GitHub\ArchiTetris\ArchiTetris\obj\Debug\ArchiTetris.csprojResolveAssemblyReference.cache
 C:\Users\J.Appallonia\Documents\GitHub\ArchiTetris\ArchiTetris\obj\Debug\ArchiTetris.ArchiTetris.resources
 C:\Users\J.Appallonia\Documents\GitHub\ArchiTetris\ArchiTetris\obj\Debug\ArchiTetris.Properties.Resources.resources
 C:\Users\J.Appallonia\Documents\GitHub\ArchiTetris\ArchiTetris\obj\Debug\ArchiTetris.csproj.GenerateResource.Cache

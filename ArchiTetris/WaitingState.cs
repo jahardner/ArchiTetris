@@ -10,7 +10,7 @@ namespace ArchiTetris
     {
         public WaitingState(ArchiTetris e)
         {
-            e.currentBlock = e.nextBlocks.Dequeue();
+            e.currentBlock = e.rwl.getBlock();
             e.currentBlock.setBlocksPos(5, 0);
             nextState(e);
         }
@@ -18,7 +18,7 @@ namespace ArchiTetris
         public override BoardState nextState(ArchiTetris e)
         {
             FallingState newState = new FallingState(e);
-            e.bState = (BoardState)newState;
+            e.bState = newState;
             return newState;
         }
     }

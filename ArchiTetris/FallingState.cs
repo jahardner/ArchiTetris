@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArchiTetris
 {
-    class FallingState : BoardState
+    public class FallingState : BoardState
     {
         public FallingState(ArchiTetris e)
         {
@@ -22,7 +22,6 @@ namespace ArchiTetris
         public override BoardState nextState(ArchiTetris e)
         {
             CheckState newState = new CheckState(e, this);
-            e.bState = (BoardState)newState;
             return newState;
         }
     }
