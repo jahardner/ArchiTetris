@@ -13,28 +13,28 @@ namespace ArchiTetris
 {
     public partial class ArchiTetris : Form
     {
-        Random r = new Random();
         public BoardState bState;
         public PictureBox[,] boardTiles = new PictureBox[10, 20];
         public int[,] boardArray = new int[10, 20];
         public BlockIF currentBlock;
-        BlockFactory fact = new BlockFactory();
-        String[] blockList = new String[] { "Square", "Bar", "T", "L", "N" };
-        int[] blockFreq = new int[5] {0,0,0,0,0};
-        Color[] colors = new Color[] {Color.Black, Color.Crimson, Color.DeepSkyBlue, Color.HotPink, Color.SpringGreen,
-        Color.MediumPurple, Color.Goldenrod, Color.Chocolate};
-        public Queue<BlockIF> nextBlocks = new Queue<BlockIF>();
+        public List<BlockIF> nextBlocks = new List<BlockIF>();
         public String lastMove = "";
         public ReadWriteLock rwl;
         public bool gameOver = false;
-        private int tooFrequent = 2;
         public bool remove = false;
-        List<Button> blockChooser = new List<Button>();
-        int count = 0;
         public bool movingFromWait = false;
-        System.Timers.Timer tTimer;
-        System.Timers.Timer moveTimer;
-        System.Timers.Timer constantTimer;
+
+        private Random r = new Random();
+        private BlockFactory fact = new BlockFactory();
+        private String[] blockList = new String[] { "Square", "Bar", "T", "L", "N" };
+        private Color[] colors = new Color[] {Color.Black, Color.Crimson, Color.DeepSkyBlue, Color.HotPink, Color.SpringGreen,
+        Color.MediumPurple, Color.Goldenrod, Color.Chocolate};    
+        private int tooFrequent = 2;
+        private List<Button> blockChooser = new List<Button>();
+        private System.Timers.Timer tTimer;
+        private System.Timers.Timer moveTimer;
+        private System.Timers.Timer constantTimer;
+        private System.Timers.Timer aiTimer;
 
         public ArchiTetris()
         {
@@ -68,7 +68,6 @@ namespace ArchiTetris
             {
                 blockChooser[i].Text = blockList[r.Next(blockList.Length)];
             }
-
             
             tTimer = new System.Timers.Timer();
             tTimer.Elapsed += new ElapsedEventHandler(TimerEvent);
@@ -84,16 +83,30 @@ namespace ArchiTetris
             moveTimer.Elapsed += new ElapsedEventHandler(MoveEvent);
             moveTimer.Interval = 2000;
             moveTimer.Enabled = false;
+
+            aiTimer = new System.Timers.Timer();
+            aiTimer.Elapsed += new ElapsedEventHandler(AIEvent);
+            aiTimer.Interval = 2000;
+            aiTimer.Enabled = true;
         }
 
         public void pause()
         {
+            if (gameOver)
+            {
+                statusLabel.Text = "Game Over!";
+            }
+            else
+            {
+                statusLabel.Text = "Paused";
+            }
             tTimer.Enabled = false;
             moveTimer.Enabled = false;
         }
 
         public void play()
         {
+            statusLabel.Text = "";
             tTimer.Enabled = true;
             moveTimer.Enabled = true;
         }
@@ -150,6 +163,11 @@ namespace ArchiTetris
             }
         }
 
+        public void replaceBlockQueue(int i, string b)
+        {
+            blockQueue.Items[i] = b;
+        }
+
         private void TimerEvent(object source, ElapsedEventArgs e)
         {
             // impliment timer
@@ -178,6 +196,38 @@ namespace ArchiTetris
             {
                 moveDown();
             }
+        }
+
+        private void AIEvent(object source, ElapsedEventArgs e)
+        {
+            int f = checkFreq();
+            if (f != -1)
+            {
+                string selBlock = blockList[r.Next(blockList.Length)];
+                rwl.replaceBlock(fact.getColoredBlock(selBlock + "Block"), f, selBlock);
+            }
+            
+        }
+
+        private int checkFreq()
+        {
+            int index = -1;
+            int[] blockFreq = new int[5] { 0, 0, 0, 0, 0 };
+            for (int i = 0; i < blockQueue.Items.Count; i++)
+            {
+                for (int j = 0; j < blockList.Length; j++)
+                {
+                    if (blockList[j].Equals(blockQueue.GetItemText(blockQueue.Items[i])))
+                    {
+                        blockFreq[j]++;
+                        if (blockFreq[j] >= tooFrequent)
+                        {
+                            index = i;
+                        }
+                    }
+                }
+            }
+            return index;
         }
 
         private void ConstantEvent(object source, ElapsedEventArgs e)
@@ -234,7 +284,7 @@ namespace ArchiTetris
             }
         }
 
-        public void moveRight()
+        private void moveRight()
         {
             FallingState fs = bState as FallingState;
             if (currentBlock != null && fs != null && lastMove.Equals(""))
@@ -246,7 +296,7 @@ namespace ArchiTetris
             }
         }
 
-        public void rotateBlock()
+        private void rotateBlock()
         {
             FallingState fs = bState as FallingState;
             if (currentBlock != null && fs != null && lastMove.Equals(""))
@@ -258,47 +308,8 @@ namespace ArchiTetris
             }
         }
 
-        private void updateFreq (String b)
-        {
-            int dup = 0;
-            for (int i = 0; i < blockList.Length; i++)
-            {
-                if (b.Equals(blockList[i]))
-                {
-                    blockFreq[i]++;
-                    dup = i;
-                }
-            }
-            for (int j = 0; j < blockFreq.Length; j++)
-            {
-                if (j != dup)
-                {
-                    blockFreq[j] = 0;
-                }
-            }
-        }
-
-        private bool checkFreq()
-        {
-            bool tooFreq = false;
-            foreach (int i in blockFreq)
-            {
-                if (i >= tooFrequent)
-                {
-                    tooFreq = true;
-                }
-            }
-            return tooFreq;
-        }
-
         private void chooseBlock(String selBlock)
         {
-            updateFreq(selBlock);
-            if (checkFreq())
-            {
-                // add a random block instead
-                selBlock = blockList[r.Next(blockList.Length)];
-            }
             rwl.addBlock(fact.getColoredBlock(selBlock + "Block"), selBlock);
         }
 
@@ -332,10 +343,6 @@ namespace ArchiTetris
             button1.Text = blockList[r.Next(blockList.Length)];
         }
 
-        private void ArchiTetris_KeyDown(object sender, KeyEventArgs e)
-        {
-        }
-
         private void button1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Down)
@@ -354,6 +361,32 @@ namespace ArchiTetris
             {
                 moveRight();
             }
+        }
+
+        private void ArchiTetris_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Down)
+            {
+                moveDown();
+            }
+            else if (e.KeyCode == Keys.Up)
+            {
+                rotateBlock();
+            }
+            else if (e.KeyCode == Keys.Left)
+            {
+                moveLeft();
+            }
+            else if (e.KeyCode == Keys.Right)
+            {
+                moveRight();
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Instructions ins = new Instructions();
+            ins.Show();
         }
     }
 }
