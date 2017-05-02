@@ -22,7 +22,7 @@ namespace ArchiTetris
             topBlock.setBlocksPos(x, y);
             blocks[0] = topBlock;
             DoubleBlock bottomBlock = (DoubleBlock)blocks[1];
-            bottomBlock.setBlocksPos(x, y + 1);
+            bottomBlock.setBlocksPos(x + 1, y + 1);
             blocks[1] = bottomBlock;
         }
     }
