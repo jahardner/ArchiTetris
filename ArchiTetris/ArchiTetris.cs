@@ -30,6 +30,7 @@ namespace ArchiTetris
         public bool remove = false;
         List<Button> blockChooser = new List<Button>();
         int count = 0;
+        public bool movingFromWait = false;
 
         public ArchiTetris()
         {
@@ -64,16 +65,16 @@ namespace ArchiTetris
                 blockChooser[i].Text = blockList[r.Next(blockList.Length)];
             }
 
-            /*
+            
             System.Timers.Timer tTimer = new System.Timers.Timer();
             tTimer.Elapsed += new ElapsedEventHandler(TimerEvent);
             tTimer.Interval = 1000;
             tTimer.Enabled = true;
-            */
+            
 
             System.Timers.Timer moveTimer = new System.Timers.Timer();
             moveTimer.Elapsed += new ElapsedEventHandler(MoveEvent);
-            moveTimer.Interval = 5000;
+            moveTimer.Interval = 2000;
             moveTimer.Enabled = true;
         }
 
@@ -152,9 +153,16 @@ namespace ArchiTetris
 
         private void MoveEvent(object source, ElapsedEventArgs e)
         {
+            checkWaiting();
+            moveDown();
+        }
+
+        private void checkWaiting()
+        {
             WaitingState wState = bState as WaitingState;
-            if (wState != null && blockQueue.Items.Count > 0)
+            if (wState != null && blockQueue.Items.Count > 0 && !movingFromWait)
             {
+                movingFromWait = true;
                 bState.nextState(this);
             }
         }
@@ -275,13 +283,11 @@ namespace ArchiTetris
 
         private void button1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            label1.Text = count.ToString();
-            count++;
             if (e.KeyCode == Keys.Down)
             {
                 moveDown();
             }
-            if (e.KeyCode == Keys.Up)
+            else if (e.KeyCode == Keys.Up)
             {
                 // rotate through rotate magic
             }

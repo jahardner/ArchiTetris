@@ -13,13 +13,12 @@ namespace ArchiTetris
             
         }
 
-        public override BoardState nextState(ArchiTetris e)
+        public override void nextState(ArchiTetris e)
         {
             e.currentBlock = e.rwl.getBlock();
-            e.currentBlock.setBlocksPos(5, 0);
+            e.currentBlock.setBlocksPos(4, 1);
             FallingState newState = new FallingState(e);
             e.bState = newState;
-            return newState;
         }
     }
 }

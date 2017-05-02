@@ -30,15 +30,12 @@ namespace ArchiTetris
                 {
                     // double block
                     List<KeyValuePair<int, int>> dbpos = db.getPos();
-                    for (int j = 0; j < dbpos.Count; j++)
-                    {
-                        poses.Add(dbpos[i]);
-                    }
+                    poses.AddRange(dbpos);
                 } else if (sb != null)
                 {
                     // is singleblock
                     List<KeyValuePair<int, int>> sbpos = sb.getPos();
-                    poses.Add(sbpos[0]);
+                    poses.AddRange(sbpos);
                 }
             }
             return poses;

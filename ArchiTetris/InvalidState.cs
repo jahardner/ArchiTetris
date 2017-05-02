@@ -20,13 +20,14 @@ namespace ArchiTetris
                 e.currentBlock.setBlocksPos(e.currentBlock.getX() - 1, e.currentBlock.getY());
             } else if (e.lastMove == "down")
             {
+                e.currentBlock.setBlocksPos(e.currentBlock.getX(), e.currentBlock.getY() - 1);
                 doneFalling = true;
             }
             
             nextState(e);
         }
 
-        public override BoardState nextState(ArchiTetris e)
+        public override void nextState(ArchiTetris e)
         {
             BoardState newState;
             FallingState fState = new FallingState(e);
@@ -36,9 +37,7 @@ namespace ArchiTetris
                 DoneState dState = new DoneState(e);
                 newState = (BoardState)dState;
             }
-            e.bState = newState;
             e.lastMove = "";
-            return newState;
         }
     }
 }

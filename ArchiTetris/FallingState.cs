@@ -10,6 +10,7 @@ namespace ArchiTetris
     {
         public FallingState(ArchiTetris e)
         {
+            e.movingFromWait = false;
             e.resetBoard();
             List<KeyValuePair<int, int>> poses = e.currentBlock.getPos();
             WrapperBlock wBlock = (WrapperBlock)e.currentBlock;
@@ -19,11 +20,10 @@ namespace ArchiTetris
             }
         }
 
-        public override BoardState nextState(ArchiTetris e)
+        public override void nextState(ArchiTetris e)
         {
             CheckState newState = new CheckState(e);
             e.bState = newState;
-            return newState;
         }
     }
 }

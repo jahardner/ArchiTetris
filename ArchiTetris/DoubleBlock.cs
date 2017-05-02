@@ -19,19 +19,19 @@ namespace ArchiTetris
         public override List<KeyValuePair<int, int>> getPos()
         {
             List<KeyValuePair<int, int>> poses = new List<KeyValuePair<int, int>>();
-            poses.Add(new KeyValuePair<int, int>(blocks[0].x, blocks[0].y));
-            poses.Add(new KeyValuePair<int, int>(blocks[1].x, blocks[1].y));
+            poses.Add(new KeyValuePair<int, int>(blocks[0].getX(), blocks[0].getY()));
+            poses.Add(new KeyValuePair<int, int>(blocks[1].getX(), blocks[1].getY()));
             return poses;
         }
 
-        public override void setBlocksPos(int x, int y)
+        public override void setBlocksPos(int nx, int ny)
         {
-            this.x = x;
-            this.y = y;
-            blocks[0].x = x;
-            blocks[0].y = y;
-            blocks[1].x = x + 1;
-            blocks[1].y = y;
+            setX(nx);
+            setY(ny);
+            blocks[0].setX(nx);
+            blocks[0].setY(ny);
+            blocks[1].setX(nx+1);
+            blocks[1].setY(ny);
         }
     }
 }

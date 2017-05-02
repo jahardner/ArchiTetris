@@ -8,25 +8,33 @@ namespace ArchiTetris
 {
     abstract class AbsBlock : BlockIF
     {
-        public int x, y;
+        private int x, y;
         public abstract List<KeyValuePair<int, int>> getPos();
         public abstract void setBlocksPos(int x, int y);
         public abstract void rotate(bool clockwise);
 
         public AbsBlock()
         {
-            x = 0;
-            y = 0;
         }
 
-        public int getX()
+        public virtual int getX()
         {
             return x;
         }
 
-        public int getY()
+        public virtual int getY()
         {
             return y;
+        }
+
+        public virtual void setX(int x)
+        {
+            this.x = x;
+        }
+
+        public virtual void setY(int y)
+        {
+            this.y = y;
         }
     }
 }
