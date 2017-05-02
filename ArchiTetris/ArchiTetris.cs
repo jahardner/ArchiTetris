@@ -29,7 +29,7 @@ namespace ArchiTetris
         private String[] blockList = new String[] { "Square", "Bar", "T", "L", "N" };
         private Color[] colors = new Color[] {Color.Black, Color.Crimson, Color.DeepSkyBlue, Color.HotPink, Color.SpringGreen,
         Color.MediumPurple, Color.Goldenrod, Color.Chocolate};    
-        private int tooFrequent = 2;
+        private int tooFrequent = 3;
         private List<Button> blockChooser = new List<Button>();
         private System.Timers.Timer tTimer;
         private System.Timers.Timer moveTimer;

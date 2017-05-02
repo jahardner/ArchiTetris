@@ -50,13 +50,14 @@ namespace ArchiTetris
         {
             lock (this)
             {
-                waitingForReadLock++;
                 if (writeLockedThread != null)
                 {
+                    waitingForReadLock++;
                     while (writeLockedThread != null)
                     {
                         Monitor.Wait(this);
                     }
+                    waitingForReadLock--;
                 }
             }
         }
