@@ -44,13 +44,13 @@ namespace ArchiTetris
                     }
                 }
             }
+            nextState(e);
         }
 
-        public override BoardState nextState(ArchiTetris e)
+        public override void nextState(ArchiTetris e)
         {
             WaitingState newState = new WaitingState(e);
             e.bState = newState;
-            return newState;
         }
     }
 }

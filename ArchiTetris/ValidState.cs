@@ -14,14 +14,13 @@ namespace ArchiTetris
             nextState(e);
         }
 
-        public override BoardState nextState(ArchiTetris e)
+        public override void nextState(ArchiTetris e)
         {
             BoardState newState;
             FallingState fState = new FallingState(e);
             newState = (BoardState)fState;
             e.bState = newState;
             e.lastMove = "";
-            return newState;
         }
     }
 }

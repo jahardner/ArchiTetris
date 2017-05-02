@@ -28,7 +28,7 @@ namespace ArchiTetris
             nextState(e);
         }
 
-        public override BoardState nextState(ArchiTetris e)
+        public override void nextState(ArchiTetris e)
         {
             BoardState newState;
             if (collision)
@@ -40,7 +40,6 @@ namespace ArchiTetris
                 ValidState vState = new ValidState(e);
                 newState = (BoardState)vState;
             }
-            return newState;
         }
     }
 }

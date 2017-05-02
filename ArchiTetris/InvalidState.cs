@@ -27,7 +27,7 @@ namespace ArchiTetris
             nextState(e);
         }
 
-        public override BoardState nextState(ArchiTetris e)
+        public override void nextState(ArchiTetris e)
         {
             BoardState newState;
             FallingState fState = new FallingState(e);
@@ -37,9 +37,7 @@ namespace ArchiTetris
                 DoneState dState = new DoneState(e);
                 newState = (BoardState)dState;
             }
-            e.bState = newState;
             e.lastMove = "";
-            return newState;
         }
     }
 }

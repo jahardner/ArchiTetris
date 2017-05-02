@@ -8,6 +8,6 @@ namespace ArchiTetris
 {
     public abstract class BoardState
     {
-        public abstract BoardState nextState(ArchiTetris e);
+        public abstract void nextState(ArchiTetris e);
     }
 }
