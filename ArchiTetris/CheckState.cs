@@ -9,15 +9,17 @@ namespace ArchiTetris
     public class CheckState : BoardState
     {
         bool collision = false;
-        BoardState prevState;
 
-        public CheckState(ArchiTetris e, BoardState p)
+        public CheckState(ArchiTetris e)
         {
-            prevState = p;
             List<KeyValuePair<int, int>> poses = e.currentBlock.getPos();
             foreach (KeyValuePair<int, int> pos in poses)
             {
-                if (e.boardArray[pos.Key, pos.Value] != 0)
+                if (pos.Key < 0 || pos.Key >= 10 || pos.Value < 0 || pos.Value >= 20)
+                {
+                    collision = true; // sort of a collision, but actually out of bounds
+                }
+                else if (e.boardArray[pos.Key, pos.Value] != 0)
                 {
                     // collision
                     collision = true;
@@ -31,11 +33,11 @@ namespace ArchiTetris
             BoardState newState;
             if (collision)
             {
-                InvalidState iState = new InvalidState(e, prevState);
+                InvalidState iState = new InvalidState(e);
                 newState = (BoardState)iState;
             } else
             {
-                ValidState vState = new ValidState(e, prevState);
+                ValidState vState = new ValidState(e);
                 newState = (BoardState)vState;
             }
             return newState;

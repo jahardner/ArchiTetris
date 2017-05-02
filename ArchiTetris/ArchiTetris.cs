@@ -28,6 +28,8 @@ namespace ArchiTetris
         public ReadWriteLock rwl;
         private int tooFrequent = 2;
         public bool remove = false;
+        List<Button> blockChooser = new List<Button>();
+        int count = 0;
 
         public ArchiTetris()
         {
@@ -51,11 +53,16 @@ namespace ArchiTetris
                 x += 20;
             }
 
+            blockChooser.Add(button1);
+            blockChooser.Add(button2);
+            blockChooser.Add(button3);
+            blockChooser.Add(button4);
+            blockChooser.Add(button5);
+
             for (int i = 0; i < 5; i++)
             {
-                blockChooser.Items.Add(blockList[r.Next(blockList.Length)]);
+                blockChooser[i].Text = blockList[r.Next(blockList.Length)];
             }
-            blockChooser.SelectedIndex = 0;
 
             /*
             System.Timers.Timer tTimer = new System.Timers.Timer();
@@ -103,7 +110,10 @@ namespace ArchiTetris
             this.Invoke((MethodInvoker)(() => blockQueue.Items.RemoveAt(0)));
             if (blockQueue.Items.Count < 5)
             {
-                pickBttn.Enabled = true;
+                for (int i = 0; i < 5; i++)
+                {
+                    blockChooser[i].Enabled = true;
+                }
             }
         }
 
@@ -112,7 +122,10 @@ namespace ArchiTetris
             blockQueue.Items.Add(b);
             if (blockQueue.Items.Count >= 5)
             {
-                pickBttn.Enabled = false;
+                for (int i = 0; i < 5; i++)
+                {
+                    blockChooser[i].Enabled = false;
+                }
             }
         }
 
@@ -144,43 +157,42 @@ namespace ArchiTetris
             {
                 bState.nextState(this);
             }
+        }
 
+        private void moveDown()
+        {
             FallingState fs = bState as FallingState;
             if (currentBlock != null && fs != null && lastMove.Equals(""))
             {
                 // move block down
                 currentBlock.setBlocksPos(currentBlock.getX(), currentBlock.getY() + 1);
                 lastMove = "down";
-                CheckState cState = new CheckState(this, bState);
-                bState = (BoardState)cState;
+                CheckState cState = new CheckState(this);
             }
         }
 
-        void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        private void moveLeft()
         {
             FallingState fs = bState as FallingState;
-            if (fs != null)
+            if (currentBlock != null && fs != null && lastMove.Equals(""))
             {
-                if (e.KeyChar == (char)Keys.Up)
-                {
-                    // rotate through rotate magic
-                }
-                else if (e.KeyChar == (char)Keys.Left)
-                {
-                    currentBlock.setBlocksPos(currentBlock.getX() - 1, currentBlock.getY());
-                    lastMove = "left";
-                    CheckState cState = new CheckState(this, bState);
-                    bState = (BoardState)cState;
-                }
-                else if (e.KeyChar == (char)Keys.Right)
-                {
-                    currentBlock.setBlocksPos(currentBlock.getX() + 1, currentBlock.getY());
-                    lastMove = "right";
-                    CheckState cState = new CheckState(this, bState);
-                    bState = (BoardState)cState;
-                }
+                // move block left
+                currentBlock.setBlocksPos(currentBlock.getX() - 1, currentBlock.getY());
+                lastMove = "left";
+                CheckState cState = new CheckState(this);
             }
-            e.Handled = true;
+        }
+
+        public void moveRight()
+        {
+            FallingState fs = bState as FallingState;
+            if (currentBlock != null && fs != null && lastMove.Equals(""))
+            {
+                // move block right
+                currentBlock.setBlocksPos(currentBlock.getX() + 1, currentBlock.getY());
+                lastMove = "right";
+                CheckState cState = new CheckState(this);
+            }
         }
 
         private void updateFreq (String b)
@@ -216,10 +228,8 @@ namespace ArchiTetris
             return tooFreq;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void chooseBlock(String selBlock)
         {
-            String selBlock = blockChooser.SelectedItem.ToString();
-            blockChooser.Items.RemoveAt(blockChooser.SelectedIndex);
             updateFreq(selBlock);
             if (checkFreq())
             {
@@ -227,7 +237,62 @@ namespace ArchiTetris
                 selBlock = blockList[r.Next(blockList.Length)];
             }
             rwl.addBlock(fact.getColoredBlock(selBlock + "Block"), selBlock);
-            blockChooser.Items.Add(blockList[r.Next(blockList.Length)]);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            chooseBlock(button2.Text);
+            button2.Text = blockList[r.Next(blockList.Length)];
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            chooseBlock(button3.Text);
+            button3.Text = blockList[r.Next(blockList.Length)];
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            chooseBlock(button4.Text);
+            button4.Text = blockList[r.Next(blockList.Length)];
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            chooseBlock(button5.Text);
+            button5.Text = blockList[r.Next(blockList.Length)];
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            chooseBlock(button1.Text);
+            button1.Text = blockList[r.Next(blockList.Length)];
+        }
+
+        private void ArchiTetris_KeyDown(object sender, KeyEventArgs e)
+        {
+        }
+
+        private void button1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            label1.Text = count.ToString();
+            count++;
+            if (e.KeyCode == Keys.Down)
+            {
+                moveDown();
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                // rotate through rotate magic
+            }
+            else if (e.KeyCode == Keys.Left)
+            {
+                moveLeft();
+            }
+            else if (e.KeyCode == Keys.Right)
+            {
+                moveRight();
+            }
         }
     }
 }

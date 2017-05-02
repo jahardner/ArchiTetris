@@ -8,10 +8,9 @@ namespace ArchiTetris
 {
     class InvalidState : BoardState
     {
-        BoardState prevState;
         bool doneFalling = false;
 
-        public InvalidState(ArchiTetris e, BoardState p)
+        public InvalidState(ArchiTetris e)
         {
             if (e.lastMove == "left")
             {
@@ -23,8 +22,7 @@ namespace ArchiTetris
             {
                 doneFalling = true;
             }
-
-            prevState = p;
+            
             nextState(e);
         }
 

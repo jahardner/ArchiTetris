@@ -8,11 +8,9 @@ namespace ArchiTetris
 {
     class ValidState : BoardState
     {
-        BoardState prevState;
 
-        public ValidState(ArchiTetris e, BoardState p)
+        public ValidState(ArchiTetris e)
         {
-            prevState = p;
             nextState(e);
         }
 

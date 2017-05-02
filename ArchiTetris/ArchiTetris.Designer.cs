@@ -29,15 +29,18 @@
         private void InitializeComponent()
         {
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.timerBox = new System.Windows.Forms.TextBox();
             this.board = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.pickBttn = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.blockQueue = new System.Windows.Forms.ListBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.blockChooser = new System.Windows.Forms.ListBox();
-            this.timerBox = new System.Windows.Forms.TextBox();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -53,6 +56,21 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Player 2";
             // 
+            // timerBox
+            // 
+            this.timerBox.BackColor = System.Drawing.Color.Black;
+            this.timerBox.Font = new System.Drawing.Font("OCR A Extended", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.timerBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.timerBox.Location = new System.Drawing.Point(104, 10);
+            this.timerBox.Name = "timerBox";
+            this.timerBox.ReadOnly = true;
+            this.timerBox.Size = new System.Drawing.Size(100, 24);
+            this.timerBox.TabIndex = 2;
+            this.timerBox.Text = "00:00";
+            this.timerBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.timerBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ArchiTetris_KeyDown);
+            this.timerBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.button1_PreviewKeyDown);
+            // 
             // board
             // 
             this.board.BackColor = System.Drawing.Color.Black;
@@ -63,28 +81,81 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.pickBttn);
+            this.groupBox1.Controls.Add(this.button5);
+            this.groupBox1.Controls.Add(this.button4);
+            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.blockQueue);
             this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Controls.Add(this.blockChooser);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(4, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(167, 449);
+            this.groupBox1.Size = new System.Drawing.Size(175, 449);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Player 1";
             // 
-            // pickBttn
+            // button5
             // 
-            this.pickBttn.Location = new System.Drawing.Point(46, 146);
-            this.pickBttn.Name = "pickBttn";
-            this.pickBttn.Size = new System.Drawing.Size(75, 23);
-            this.pickBttn.TabIndex = 5;
-            this.pickBttn.Text = "Pick!";
-            this.pickBttn.UseVisualStyleBackColor = true;
-            this.pickBttn.Click += new System.EventHandler(this.button1_Click);
+            this.button5.Location = new System.Drawing.Point(96, 92);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(50, 50);
+            this.button5.TabIndex = 10;
+            this.button5.Text = "Pick!";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button5.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ArchiTetris_KeyDown);
+            this.button5.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.button1_PreviewKeyDown);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(31, 92);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(50, 50);
+            this.button4.TabIndex = 9;
+            this.button4.Text = "Pick!";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ArchiTetris_KeyDown);
+            this.button4.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.button1_PreviewKeyDown);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(119, 36);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(50, 50);
+            this.button3.TabIndex = 8;
+            this.button3.Text = "Pick!";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ArchiTetris_KeyDown);
+            this.button3.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.button1_PreviewKeyDown);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(62, 36);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(50, 50);
+            this.button2.TabIndex = 7;
+            this.button2.Text = "Pick!";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ArchiTetris_KeyDown);
+            this.button2.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.button1_PreviewKeyDown);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(6, 36);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(50, 50);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Square";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ArchiTetris_KeyDown);
+            this.button1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.button1_PreviewKeyDown);
             // 
             // label2
             // 
@@ -112,6 +183,7 @@
             this.blockQueue.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.blockQueue.Size = new System.Drawing.Size(154, 108);
             this.blockQueue.TabIndex = 2;
+            this.blockQueue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ArchiTetris_KeyDown);
             // 
             // textBox1
             // 
@@ -124,26 +196,8 @@
             this.textBox1.Text = "Player 1: Double click on a block in the list to choose it.\r\n\r\nPlayer 2: Use left" +
     " and right arrow keys to move falling block accordingly. Use up arrow to rotate " +
     "the block.";
-            // 
-            // blockChooser
-            // 
-            this.blockChooser.FormattingEnabled = true;
-            this.blockChooser.Location = new System.Drawing.Point(6, 32);
-            this.blockChooser.Name = "blockChooser";
-            this.blockChooser.Size = new System.Drawing.Size(154, 108);
-            this.blockChooser.TabIndex = 0;
-            // 
-            // timerBox
-            // 
-            this.timerBox.BackColor = System.Drawing.Color.Black;
-            this.timerBox.Font = new System.Drawing.Font("OCR A Extended", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.timerBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.timerBox.Location = new System.Drawing.Point(104, 10);
-            this.timerBox.Name = "timerBox";
-            this.timerBox.Size = new System.Drawing.Size(100, 24);
-            this.timerBox.TabIndex = 2;
-            this.timerBox.Text = "00:00";
-            this.timerBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ArchiTetris_KeyDown);
+            this.textBox1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.button1_PreviewKeyDown);
             // 
             // ArchiTetris
             // 
@@ -154,6 +208,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "ArchiTetris";
             this.Text = "ArchiTetris";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ArchiTetris_KeyDown);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -166,13 +221,16 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Panel board;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ListBox blockChooser;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.ListBox blockQueue;
         private System.Windows.Forms.Label label2;
-        public System.Windows.Forms.Button pickBttn;
         private System.Windows.Forms.TextBox timerBox;
+        public System.Windows.Forms.Button button5;
+        public System.Windows.Forms.Button button4;
+        public System.Windows.Forms.Button button3;
+        public System.Windows.Forms.Button button2;
+        public System.Windows.Forms.Button button1;
     }
 }
 
