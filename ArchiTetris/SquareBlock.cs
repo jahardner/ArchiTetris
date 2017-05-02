@@ -16,14 +16,14 @@ namespace ArchiTetris
 
         public override void setBlocksPos(int x, int y)
         {
+            DoubleBlock b1 = (DoubleBlock)blocks[0];
+            DoubleBlock b2 = (DoubleBlock)blocks[1];
             setX(x);
             setY(y);
-            DoubleBlock topBlock = (DoubleBlock)blocks[0];
-            topBlock.setBlocksPos(x, y);
-            blocks[0] = topBlock;
-            DoubleBlock bottomBlock = (DoubleBlock)blocks[1];
-            bottomBlock.setBlocksPos(x,y+1);
-            blocks[1] = bottomBlock;
+            b1.setBlocksPos(x, y - 1);
+            b2.setBlocksPos(x, y);
+            blocks[0] = b1;
+            blocks[1] = b2;
         }
     }
 }

@@ -8,6 +8,11 @@ namespace ArchiTetris
 {
     class SingleBlock : AbsBlock
     {
+
+        public override void rotate(bool clockwise)
+        {
+        }
+
         public override List<KeyValuePair<int, int>> getPos()
         {
             List<KeyValuePair<int, int>> poses = new List<KeyValuePair<int, int>>();

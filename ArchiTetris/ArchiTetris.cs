@@ -26,11 +26,15 @@ namespace ArchiTetris
         public Queue<BlockIF> nextBlocks = new Queue<BlockIF>();
         public String lastMove = "";
         public ReadWriteLock rwl;
+        public bool gameOver = false;
         private int tooFrequent = 2;
         public bool remove = false;
         List<Button> blockChooser = new List<Button>();
         int count = 0;
         public bool movingFromWait = false;
+        System.Timers.Timer tTimer;
+        System.Timers.Timer moveTimer;
+        System.Timers.Timer constantTimer;
 
         public ArchiTetris()
         {
@@ -66,15 +70,31 @@ namespace ArchiTetris
             }
 
             
-            System.Timers.Timer tTimer = new System.Timers.Timer();
+            tTimer = new System.Timers.Timer();
             tTimer.Elapsed += new ElapsedEventHandler(TimerEvent);
             tTimer.Interval = 1000;
-            tTimer.Enabled = true;
-            
+            tTimer.Enabled = false;
 
-            System.Timers.Timer moveTimer = new System.Timers.Timer();
+            constantTimer = new System.Timers.Timer();
+            constantTimer.Elapsed += new ElapsedEventHandler(ConstantEvent);
+            constantTimer.Interval = 1000;
+            constantTimer.Enabled = true;
+
+            moveTimer = new System.Timers.Timer();
             moveTimer.Elapsed += new ElapsedEventHandler(MoveEvent);
             moveTimer.Interval = 2000;
+            moveTimer.Enabled = false;
+        }
+
+        public void pause()
+        {
+            tTimer.Enabled = false;
+            moveTimer.Enabled = false;
+        }
+
+        public void play()
+        {
+            tTimer.Enabled = true;
             moveTimer.Enabled = true;
         }
 
@@ -153,18 +173,41 @@ namespace ArchiTetris
 
         private void MoveEvent(object source, ElapsedEventArgs e)
         {
-            checkWaiting();
-            moveDown();
+            bool justMoved = checkWaiting();
+            if (!justMoved)
+            {
+                moveDown();
+            }
         }
 
-        private void checkWaiting()
+        private void ConstantEvent(object source, ElapsedEventArgs e)
         {
-            WaitingState wState = bState as WaitingState;
-            if (wState != null && blockQueue.Items.Count > 0 && !movingFromWait)
+            if (!gameOver && blockQueue.Items.Count > 0)
             {
-                movingFromWait = true;
-                bState.nextState(this);
+                play();
             }
+        }
+
+        private bool checkWaiting()
+        {
+            bool justMoved = false;
+            WaitingState wState = bState as WaitingState;
+            
+            if (wState != null && !movingFromWait)
+            {
+                if(blockQueue.Items.Count == 0)
+                {
+                    pause();
+                }
+                else
+                {
+                    justMoved = true;
+                    movingFromWait = true;
+                    bState.nextState(this);
+                }
+            }
+
+            return justMoved;
         }
 
         private void moveDown()
@@ -199,6 +242,18 @@ namespace ArchiTetris
                 // move block right
                 currentBlock.setBlocksPos(currentBlock.getX() + 1, currentBlock.getY());
                 lastMove = "right";
+                CheckState cState = new CheckState(this);
+            }
+        }
+
+        public void rotateBlock()
+        {
+            FallingState fs = bState as FallingState;
+            if (currentBlock != null && fs != null && lastMove.Equals(""))
+            {
+                // rotates block clockwise
+                currentBlock.rotate(true);
+                lastMove = "rotate";
                 CheckState cState = new CheckState(this);
             }
         }
@@ -289,7 +344,7 @@ namespace ArchiTetris
             }
             else if (e.KeyCode == Keys.Up)
             {
-                // rotate through rotate magic
+                rotateBlock();
             }
             else if (e.KeyCode == Keys.Left)
             {

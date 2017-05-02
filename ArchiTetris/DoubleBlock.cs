@@ -10,6 +10,10 @@ namespace ArchiTetris
     {
         public SingleBlock[] blocks = new SingleBlock[2];
 
+        public override void rotate(bool clockwise)
+        {
+        }
+
         public DoubleBlock()
         {
             blocks[0] = new SingleBlock();

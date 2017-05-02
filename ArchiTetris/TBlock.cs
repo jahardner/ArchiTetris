@@ -10,7 +10,8 @@ namespace ArchiTetris
     {
         public TBlock()
         {
-            blocks.Add(new DoubleBlock());
+            blocks.Add(new SingleBlock());
+            blocks.Add(new SingleBlock());
             blocks.Add(new DoubleBlock());
         }
 
@@ -32,17 +33,16 @@ namespace ArchiTetris
             {
                 this.rot = 4;
             }
-            this.setBlocksPos(this.x, this.y);
+            this.setBlocksPos(getX(), getY());
         }
 
         public override void setBlocksPos(int x, int y)
         {
-<<<<<<< HEAD
             SingleBlock b1 = (SingleBlock)blocks[0];
             SingleBlock b2 = (SingleBlock)blocks[1];
             DoubleBlock b3 = (DoubleBlock)blocks[2];
-            this.x = x;
-            this.y = y;
+            setX(x);
+            setY(y);
             switch (this.rot)
             {
                 case 1:
@@ -69,17 +69,6 @@ namespace ArchiTetris
             blocks[0] = b1;
             blocks[1] = b2;
             blocks[2] = b3;
-            
-=======
-            setX(x);
-            setY(y);
-            DoubleBlock topBlock = (DoubleBlock)blocks[0];
-            topBlock.setBlocksPos(x, y);
-            blocks[0] = topBlock;
-            DoubleBlock bottomBlock = (DoubleBlock)blocks[1];
-            bottomBlock.setBlocksPos(x, y + 1);
-            blocks[1] = bottomBlock;
->>>>>>> origin/master
         }
     }
 }

@@ -35,15 +35,16 @@ namespace ArchiTetris
                     {
                         for (int i = 0; i < 10; i++)
                         {
-                            e.boardArray[k, i] = e.boardArray[k - 1, i];
+                            e.boardArray[i, k] = e.boardArray[i, k - 1];
                         }
                     }
                     for (int i = 0; i < 10; i++)
                     {
-                        e.boardArray[0, i] = 0;
+                        e.boardArray[i, 0] = 0;
                     }
                 }
             }
+            e.resetBoard();
             nextState(e);
         }
 

@@ -12,6 +12,11 @@ namespace ArchiTetris
         public BlockIF block;
         public Color c;
 
+        public override void rotate(bool clockwise)
+        {
+            this.block.rotate(clockwise);
+        }
+
         public WrapperBlock(BlockIF cb, Color c)
         {
             block = cb;
