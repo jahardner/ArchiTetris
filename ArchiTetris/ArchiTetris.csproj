@@ -62,6 +62,12 @@
     <Compile Include="DoneState.cs" />
     <Compile Include="DoubleBlock.cs" />
     <Compile Include="FallingState.cs" />
+    <Compile Include="Instructions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Instructions.Designer.cs">
+      <DependentUpon>Instructions.cs</DependentUpon>
+    </Compile>
     <Compile Include="InvalidState.cs" />
     <Compile Include="LBlock.cs" />
     <Compile Include="NBlock.cs" />
@@ -76,6 +82,9 @@
     <Compile Include="WrapperBlock.cs" />
     <EmbeddedResource Include="ArchiTetris.resx">
       <DependentUpon>ArchiTetris.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Instructions.resx">
+      <DependentUpon>Instructions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

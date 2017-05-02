@@ -23,7 +23,8 @@ namespace ArchiTetris
         public BlockIF getBlock()
         {
             readLock();
-            BlockIF b = env.nextBlocks.Dequeue();
+            BlockIF b = env.nextBlocks[0];
+            env.nextBlocks.RemoveAt(0);
             env.removeBlockQueue();
             done();
             return b;
@@ -32,8 +33,16 @@ namespace ArchiTetris
         public void addBlock(BlockIF newB, string b)
         {
             writeLock();
-            env.nextBlocks.Enqueue(newB);
+            env.nextBlocks.Add(newB);
             env.addBlockQueue(b);
+            done();
+        }
+
+        public void replaceBlock(BlockIF newB, int i, string b)
+        {
+            writeLock();
+            env.nextBlocks[i] = newB;
+            env.replaceBlockQueue(i, b);
             done();
         }
 
