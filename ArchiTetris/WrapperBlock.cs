@@ -18,6 +18,16 @@ namespace ArchiTetris
             this.c = c;
         }
 
+        public override int getX()
+        {
+            return block.getX();
+        }
+
+        public override int getY()
+        {
+            return block.getY();
+        }
+
         public override List<KeyValuePair<int, int>> getPos()
         {
             return block.getPos();

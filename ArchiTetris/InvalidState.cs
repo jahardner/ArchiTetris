@@ -20,6 +20,7 @@ namespace ArchiTetris
                 e.currentBlock.setBlocksPos(e.currentBlock.getX() - 1, e.currentBlock.getY());
             } else if (e.lastMove == "down")
             {
+                e.currentBlock.setBlocksPos(e.currentBlock.getX(), e.currentBlock.getY() - 1);
                 doneFalling = true;
             }
             

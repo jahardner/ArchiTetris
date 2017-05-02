@@ -19,10 +19,10 @@ namespace ArchiTetris
             }
 
             // check for clearing lines
-            for (int i = 19; i > 0; i--)
+            for (int j = 19; j > 0; j--)
             {
                 bool wholeRow = true;
-                for (int j = 0; j < 10; j++)
+                for (int i = 0; i < 10; i++)
                 {
                     if (e.boardArray[i, j] == 0)
                     {
@@ -31,16 +31,16 @@ namespace ArchiTetris
                 }
                 if (wholeRow)
                 {
-                    for (int k = i; k > 1; k--)
+                    for (int k = j; k > 1; k--)
                     {
-                        for (int j = 0; j < 10; j++)
+                        for (int i = 0; i < 10; i++)
                         {
-                            e.boardArray[k, j] = e.boardArray[k - 1, j];
+                            e.boardArray[k, i] = e.boardArray[k - 1, i];
                         }
                     }
-                    for (int j = 0; j < 10; j++)
+                    for (int i = 0; i < 10; i++)
                     {
-                        e.boardArray[0, j] = 0;
+                        e.boardArray[0, i] = 0;
                     }
                 }
             }
