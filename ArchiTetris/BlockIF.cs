@@ -9,6 +9,7 @@ namespace ArchiTetris
     public interface BlockIF
     {
         List<KeyValuePair<int, int>> getPos();
+        void rotate(bool clockwise);
         void setBlocksPos(int x, int y);
         int getX();
         int getY();

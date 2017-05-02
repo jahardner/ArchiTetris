@@ -9,10 +9,15 @@ namespace ArchiTetris
     abstract class CompositeBlock : AbsBlock
     {
         public List<BlockIF> blocks = new List<BlockIF>();
-        public int[,] rot;
+        public int rot = 1;
 
         // idea: pass in vals for key block, set pos of other blocks based on them and shape
         public override abstract void setBlocksPos(int x, int y);
+
+        public override void rotate(bool clockwise)
+        {
+
+        }
         
         public override List<KeyValuePair<int, int>> getPos()
         {

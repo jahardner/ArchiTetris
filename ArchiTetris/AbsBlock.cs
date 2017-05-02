@@ -11,6 +11,7 @@ namespace ArchiTetris
         public int x, y;
         public abstract List<KeyValuePair<int, int>> getPos();
         public abstract void setBlocksPos(int x, int y);
+        public abstract void rotate(bool clockwise);
 
         public AbsBlock()
         {
