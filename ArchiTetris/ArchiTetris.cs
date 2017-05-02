@@ -24,7 +24,7 @@ namespace ArchiTetris
         Color[] colors = new Color[] {Color.Black, Color.Crimson, Color.DeepSkyBlue, Color.HotPink, Color.SpringGreen,
         Color.MediumPurple, Color.Goldenrod, Color.Chocolate};
         public Queue<BlockIF> nextBlocks = new Queue<BlockIF>();
-        public String lastMove;
+        public String lastMove = "";
         public ReadWriteLock rwl;
         private int tooFrequent = 2;
         public bool remove = false;
@@ -57,10 +57,12 @@ namespace ArchiTetris
             }
             blockChooser.SelectedIndex = 0;
 
+            /*
             System.Timers.Timer tTimer = new System.Timers.Timer();
             tTimer.Elapsed += new ElapsedEventHandler(TimerEvent);
             tTimer.Interval = 1000;
             tTimer.Enabled = true;
+            */
 
             System.Timers.Timer moveTimer = new System.Timers.Timer();
             moveTimer.Elapsed += new ElapsedEventHandler(MoveEvent);
@@ -144,7 +146,7 @@ namespace ArchiTetris
             }
 
             FallingState fs = bState as FallingState;
-            if (currentBlock != null && fs != null)
+            if (currentBlock != null && fs != null && lastMove.Equals(""))
             {
                 // move block down
                 currentBlock.setBlocksPos(currentBlock.getX(), currentBlock.getY() + 1);

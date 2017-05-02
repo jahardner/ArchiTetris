@@ -23,6 +23,7 @@ namespace ArchiTetris
                     collision = true;
                 }
             }
+            nextState(e);
         }
 
         public override BoardState nextState(ArchiTetris e)
@@ -37,7 +38,6 @@ namespace ArchiTetris
                 ValidState vState = new ValidState(e, prevState);
                 newState = (BoardState)vState;
             }
-            e.bState = newState;
             return newState;
         }
     }

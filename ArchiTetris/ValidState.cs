@@ -18,8 +18,12 @@ namespace ArchiTetris
 
         public override BoardState nextState(ArchiTetris e)
         {
-            e.bState = prevState;
-            return prevState;
+            BoardState newState;
+            FallingState fState = new FallingState(e);
+            newState = (BoardState)fState;
+            e.bState = newState;
+            e.lastMove = "";
+            return newState;
         }
     }
 }

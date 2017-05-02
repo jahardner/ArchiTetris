@@ -30,13 +30,16 @@ namespace ArchiTetris
 
         public override BoardState nextState(ArchiTetris e)
         {
-            BoardState newState = prevState;
+            BoardState newState;
+            FallingState fState = new FallingState(e);
+            newState = (BoardState)fState;
             if (doneFalling)
             {
                 DoneState dState = new DoneState(e);
                 newState = (BoardState)dState;
             }
             e.bState = newState;
+            e.lastMove = "";
             return newState;
         }
     }
